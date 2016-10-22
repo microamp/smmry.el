@@ -102,7 +102,7 @@
           (delete-region (point-min) (point))
           ;; Parse JSON response body
           (let ((json-object-type 'hash-table))
-            (let* ((payload (string-trim (buffer-string)))
+            (let* ((payload (buffer-string))
                    (jsonified (json-read-from-string payload))
                    (errored (smmry--erroredp jsonified)))
               (when errored
