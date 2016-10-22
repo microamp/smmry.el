@@ -4,6 +4,7 @@
 ;;
 ;; Author: james sangho nah <microamp@protonmail.com>
 ;; Version: 0.0.1
+;; Package-Requires: ((emacs "23.1"))
 ;; Keywords: api smmry
 ;; Homepage: https://github.com/microamp/smmry.el
 
@@ -98,11 +99,12 @@
       (let ((url-request-method "GET"))
         (with-current-buffer (url-retrieve-synchronously smmry-url)
           ;; Remove headers
+          (declare (special url-http-end-of-headers))
           (goto-char url-http-end-of-headers)
           (delete-region (point-min) (point))
           ;; Parse JSON response body
           (let ((json-object-type 'hash-table))
-            (let* ((payload (string-trim (buffer-string)))
+            (let* ((payload (buffer-string))
                    (jsonified (json-read-from-string payload))
                    (errored (smmry--erroredp jsonified)))
               (when errored
@@ -122,13 +124,14 @@
       (error (format "No API key set in %s" smmry-env-api-key)))
     (let ((text (buffer-substring (mark) (point)))
           (smmry-url (smmry--build-url smmry-api-key)))
-        (error "Error: no region selected"))
       (unless (> (length text) 0)
+        (error "Error: no region selected"))
       (let ((url-request-method "POST")
             (url-request-extra-headers '(("Content-Type" . "application/x-www-form-urlencoded")))
             (url-request-data (format "%s=%s" smmry-request-input text)))
         (with-current-buffer (url-retrieve-synchronously smmry-url)
           ;; Remove headers
+          (declare (special url-http-end-of-headers))
           (goto-char url-http-end-of-headers)
           (delete-region (point-min) (point))
           ;; Parse JSON response body
