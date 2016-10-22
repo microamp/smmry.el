@@ -99,6 +99,7 @@
       (let ((url-request-method "GET"))
         (with-current-buffer (url-retrieve-synchronously smmry-url)
           ;; Remove headers
+          (declare (special url-http-end-of-headers))
           (goto-char url-http-end-of-headers)
           (delete-region (point-min) (point))
           ;; Parse JSON response body
@@ -130,6 +131,7 @@
             (url-request-data (format "%s=%s" smmry-request-input text)))
         (with-current-buffer (url-retrieve-synchronously smmry-url)
           ;; Remove headers
+          (declare (special url-http-end-of-headers))
           (goto-char url-http-end-of-headers)
           (delete-region (point-min) (point))
           ;; Parse JSON response body
