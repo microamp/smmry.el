@@ -58,16 +58,15 @@
 (defvar smmry-response-error "sm_api_error")
 (defvar smmry-response-message "sm_api_message")
 
-(defun smmry--url-request (api-key url)
-  ;; NOTE: No URL encode?
-  (format "%s&SM_API_KEY=%s&SM_LENGTH=%d&SM_URL=%s"
-          smmry-base-url
-          api-key
-          smmry-length
-          url))
+(defvar smmry-request-input "sm_api_input")
 
-;; TODO
-(defun smmry--text-request (text))
+(defun smmry--build-url (api-key &optional url)
+  (let ((smmry-url (format "%s&SM_API_KEY=%s&SM_LENGTH=%d"
+                           smmry-base-url
+                           api-key
+                           smmry-length)))
+    (if url (format "%s&SM_URL=%s" smmry-url url)
+      smmry-url)))
 
 (defun smmry--erroredp (jsonified)
   (let ((error-code (gethash smmry-response-error jsonified)))
@@ -92,10 +91,12 @@
   (let ((smmry-api-key (getenv smmry-env-api-key)))
     (unless smmry-api-key
       (error (format "No API key set in %s" smmry-env-api-key)))
-    (let ((url (smmry--url-request smmry-api-key (read-string "URL: "))))
-      (let ((url-request-method "GET")
-            (url-request-headers '()))
-        (with-current-buffer (url-retrieve-synchronously url)
+    (let* ((url (read-string "URL: "))
+           (smmry-url (smmry--build-url smmry-api-key url)))
+      (unless url
+        (error "Error: empty URL"))
+      (let ((url-request-method "GET"))
+        (with-current-buffer (url-retrieve-synchronously smmry-url)
           ;; Remove headers
           (goto-char url-http-end-of-headers)
           (delete-region (point-min) (point))
@@ -113,7 +114,35 @@
               (message "SMMRY response received"))))))))
 
 ;;;###autoload
-(defun smmry-by-text ())
+(defun smmry-by-region ()
+  (interactive)
+  (let ((smmry-api-key (getenv smmry-env-api-key)))
+    (unless smmry-api-key
+      (error (format "No API key set in %s" smmry-env-api-key)))
+    (let ((text (buffer-substring (mark) (point)))
+          (smmry-url (smmry--build-url smmry-api-key)))
+      (unless text
+        (error "Error: no text selected"))
+      (let ((url-request-method "POST")
+            (url-request-extra-headers '(("Content-Type" . "application/x-www-form-urlencoded")))
+            (url-request-data (format "%s=%s" smmry-request-input text)))
+        (with-current-buffer (url-retrieve-synchronously smmry-url)
+          ;; Remove headers
+          (goto-char url-http-end-of-headers)
+          (delete-region (point-min) (point))
+          ;; Parse JSON response body
+          (let ((json-object-type 'hash-table))
+            (let* ((payload (string-trim (buffer-string)))
+                   (jsonified (json-read-from-string payload))
+                   (errored (smmry--erroredp jsonified)))
+              (when errored
+                (error (smmry--build-error-message jsonified)))
+              (erase-buffer)
+              (insert (gethash smmry-response-content jsonified))
+              (rename-buffer (smmry--build-buffer-name jsonified))
+              (display-buffer (current-buffer))
+              (message "SMMRY response received"))))))))
 
 (provide 'smmry)
+
 ;;; smmry.el ends here
