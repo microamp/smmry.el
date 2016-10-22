@@ -122,7 +122,7 @@
       (error (format "No API key set in %s" smmry-env-api-key)))
     (let ((text (buffer-substring (mark) (point)))
           (smmry-url (smmry--build-url smmry-api-key)))
-        (error "Error: no text selected"))
+        (error "Error: no region selected"))
       (unless (> (length text) 0)
       (let ((url-request-method "POST")
             (url-request-extra-headers '(("Content-Type" . "application/x-www-form-urlencoded")))
