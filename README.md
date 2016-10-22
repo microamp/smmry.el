@@ -1,6 +1,6 @@
 # smmry.el
 
-[SMMRY](http://smmry.com/) client for Emacs. SMMRY is what powers the [autotldr bot](https://www.reddit.com/user/autotldr).
+[SMMRY](http://smmry.com/) client for Emacs. SMMRY is what powers the [autotldr bot](https://www.reddit.com/user/autotldr). See [this post](https://www.reddit.com/r/askscience/comments/4s5b5q/how_exactly_does_a_autotldrbot_work/) on Reddit for more details.
 
 ## Commands
 
