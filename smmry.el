@@ -93,7 +93,7 @@
       (error (format "No API key set in %s" smmry-env-api-key)))
     (let* ((url (read-string "URL: "))
            (smmry-url (smmry--build-url smmry-api-key url)))
-      (unless url
+      (unless (> (length url) 0)
         (error "Error: empty URL"))
       (let ((url-request-method "GET"))
         (with-current-buffer (url-retrieve-synchronously smmry-url)
@@ -122,8 +122,8 @@
       (error (format "No API key set in %s" smmry-env-api-key)))
     (let ((text (buffer-substring (mark) (point)))
           (smmry-url (smmry--build-url smmry-api-key)))
-      (unless text
         (error "Error: no text selected"))
+      (unless (> (length text) 0)
       (let ((url-request-method "POST")
             (url-request-extra-headers '(("Content-Type" . "application/x-www-form-urlencoded")))
             (url-request-data (format "%s=%s" smmry-request-input text)))
