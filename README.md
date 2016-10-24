@@ -1,5 +1,7 @@
 # smmry.el
 
+[![MELPA](https://melpa.org/packages/smmry-badge.svg)](https://melpa.org/#/smmry)
+
 [SMMRY](http://smmry.com/) client for Emacs. SMMRY is what powers the [autotldr bot](https://www.reddit.com/user/autotldr). See [FAQ](https://www.reddit.com/r/autotldr/comments/31b9fm/faq_autotldr_bot/) for more details.
 
 ## Commands
