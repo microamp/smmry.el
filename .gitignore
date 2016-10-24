@@ -1,1 +1,3 @@
+*.elc
 *.http
+.DS_Store
