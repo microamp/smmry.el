@@ -3,7 +3,7 @@
 ;; Copyright (C) 2016 james sangho nah <microamp@protonmail.com>
 ;;
 ;; Author: james sangho nah <microamp@protonmail.com>
-;; Version: 0.0.2
+;; Version: 0.0.3
 ;; Keywords: api smmry
 ;; Homepage: https://github.com/microamp/smmry.el
 
