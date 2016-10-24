@@ -4,7 +4,6 @@
 ;;
 ;; Author: james sangho nah <microamp@protonmail.com>
 ;; Version: 0.0.2
-;; Package-Requires: ((emacs "23.1"))
 ;; Keywords: api smmry
 ;; Homepage: https://github.com/microamp/smmry.el
 
