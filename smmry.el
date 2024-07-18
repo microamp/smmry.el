@@ -1,8 +1,8 @@
 ;;; smmry.el --- SMMRY client
 
-;; Copyright (C) 2016 james sangho nah <microamp@protonmail.com>
+;; Copyright (C) 2016-2024 Sangho Na <sangho@nsh.nz>
 ;;
-;; Author: james sangho nah <microamp@protonmail.com>
+;; Author: Sangho Na <sangho@nsh.nz>
 ;; Version: 0.0.3
 ;; Keywords: api smmry
 ;; Homepage: https://github.com/microamp/smmry.el
