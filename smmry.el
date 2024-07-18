@@ -33,7 +33,7 @@
   "SMRRY client"
   :group 'convenience)
 
-(defcustom smmry-base-url "http://api.smmry.com/"
+(defcustom smmry-base-url "https://api.smmry.com/"
   "SMMRY base URL."
   :type 'string
   :group 'smmry)
