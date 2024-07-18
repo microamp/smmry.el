@@ -3,7 +3,7 @@
 ;; Copyright (C) 2016-2024 Sangho Na <sangho@nsh.nz>
 ;;
 ;; Author: Sangho Na <sangho@nsh.nz>
-;; Version: 0.0.3
+;; Version: 0.0.4
 ;; Keywords: api smmry
 ;; Homepage: https://github.com/microamp/smmry.el
 
